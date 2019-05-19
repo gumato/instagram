@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.http  import HttpResponse,Http404,HttpResponseRedirect
 import datetime as dt
 from .forms import ImageForm,SignupForm,CommentForm,EditForm
-from django.contrib.auth.decorators import login_required.
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def signup(request):
@@ -103,7 +103,7 @@ def search_results(request):
     else:
         message = "You haven't searched for any term"
         return render(request, 'all-posts/search.html',{"message":message})
-        
+
 def profiles(request,id):
     profile = Profile.objects.get(user_id=id)
     post=Image.objects.filter(user_id=id)
