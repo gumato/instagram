@@ -1,4 +1,5 @@
 from django import forms
+from .models import Image,Profile, Comments
 
 class ImageForm(forms.ModelForm):
     your_name = forms.CharField(label='First Name',max_length=30)

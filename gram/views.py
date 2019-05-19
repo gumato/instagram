@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect
 from django.http  import HttpResponse,Http404,HttpResponseRedirect
 import datetime as dt
-from .forms import ImageForm
+from .forms import ImageForm,SignupForm,CommentForm,EditForm
+from django.contrib.auth.decorators import login_required.
 
 # Create your views here.
 def signup(request):
@@ -28,3 +29,35 @@ def signup(request):
     else:
         form = SignupForm()
     return render(request, 'signup.html', {'form': form})
+
+def home(request):
+    date = dt.date.today()
+    
+    return render(request, 'registration/homepage.html', {"date": date,})
+
+@login_required(login_url='/home')
+def index(request):
+    date = dt.date.today()
+    photos = Image.objects.all()
+    # print(photos)
+    profiles = Profile.objects.all()
+    # print(profiles)
+    form = CommentForm()
+
+    return render(request, 'all-posts/index.html', {"date": date, "photos":photos, "profiles":profiles, "form":form})
+
+def new_image(request):
+    current_user = request.user
+    profile = Profile.objects.get(user=current_user)
+    if request.method == 'POST':
+        form = ImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            image = form.save(commit=False)
+            image.user = current_user
+            image.profile = profile
+            image.save()
+        return redirect('index')
+
+    else:
+        form = ImageForm()
+    return render(request, 'new_image.html', {"form": form})
