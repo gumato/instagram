@@ -1,16 +1,16 @@
-## Instagram
-# Built By pricilla 19th May 2019
-Description
+# Instagram
+## Built By pricilla 19th May 2019
+## Description
 This is a web application where a user is able to view images. Image details are stored in categories and tagged by Location. The admin is responsible for uploading, editing or deleting images.
 
-User Stories
-Users would like to:
+# User Stories
+## Users would like to:
 
-Sign in to the application to start using.
-Upload my pictures to the application.
-See my profile with all my pictures.
-Follow other users and see their pictures on my timeline.
-Like a picture and leave a comment on it.
+- Sign in to the application to start using.
+- Upload my pictures to the application.
+- See my profile with all my pictures.
+- Follow other users and see their pictures on my timeline.
+- Like a picture and leave a comment on it.
 Admin :
 
 Sign in to the gallery
