@@ -12,7 +12,7 @@ This is a web application where a user is able to view images. Image details are
 - Follow other users and see their pictures on my timeline.
 - Like a picture and leave a comment on it.
 
-#SetUp / Installation Requirements
+## SetUp / Installation Requirements
 - python3.6
 - pip
 - virtualenv
