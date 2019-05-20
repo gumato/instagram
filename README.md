@@ -1,7 +1,7 @@
 # Instagram
 ## Built By pricilla 19th May 2019
 ## Description
-This is a web application where a user is able to view images. Image details are stored in categories and tagged by Location. The admin is responsible for uploading, editing or deleting images.
+This is a web application where you can clone inastgram. Upload images and see my profile with all pictures.
 
 # User Stories
 ## Users would like to:
