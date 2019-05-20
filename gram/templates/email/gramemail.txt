@@ -1,0 +1,2 @@
+Hello {{name}}
+Welcome to Instagram You will see the amazing post
