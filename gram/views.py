@@ -67,7 +67,7 @@ def profile(request):
     date = dt.date.today()
     current_user = request.user
     profile = Profile.objects.get(user=current_user.id)
-    print(profile.profile_pic)
+    print(profile.profile)
     posts = Image.objects.filter(user=current_user)
     if request.method == 'POST':
         signup_form = EditForm(request.POST, request.FILES,instance=request.user.profile) 
@@ -85,6 +85,7 @@ def comment(request,image_id):
         image = get_object_or_404(Image, pk = image_id)
         form = CommentForm(request.POST)
         if form.is_valid():
+            profile_photo = models.ForeignKey(profile_photo,on_delete=models.CASCADE,blank=True, null=True)
             comment = form.save(commit=False)
             comment.user = request.user
             comment.image = image

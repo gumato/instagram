@@ -46,13 +46,11 @@ class Image(models.Model):
     image_name = models.CharField(max_length=40)
     image_caption = models.CharField(max_length=40)
     image_location = models.CharField(max_length=40, null=True)
-    profile = models.ForeignKey(profile,on_delete=models.CASCADE,blank=True, null=True)
+    # profile = models.ForeignKey(profile,on_delete=models.CASCADE,blank=True, null=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE,blank=True, null=True)
     posted_time = models.DateTimeField(auto_now_add=True)
     likes = models.PositiveIntegerField(default=0)
 
-    class Meta:
-        ordering = ['_posted_time']
 
 
     def save_image(self):
