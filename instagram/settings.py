@@ -40,6 +40,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'tinymce',
+    'bootstrap3',
     'gram.apps.GramConfig',
     'django.contrib.admin',
     'django.contrib.auth',
