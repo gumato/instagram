@@ -1,81 +1,76 @@
 from django.db import models
 from django.contrib.auth.models import User
 from tinymce.models import HTMLField
-from django.dispatch import receiver
-from django.db.models.signals import post_save
+from pyuploadcare.dj.models import ImageField
 
 # Create your models here.
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='profile')
-    first_name = models.CharField(max_length=40)
-    last_name = models.CharField(max_length=40)
-    bio = models.CharField(max_length=250)
-    profile_photo = models.ImageField(upload_to='profile/')
-    pub_date_created = models.DateTimeField(auto_now_add=True)
-
-
-    def __str__(self):
-        return self.first_name
-
+    
+    prof= ImageField(blank=True, manual_crop='800x800')
+    bio = HTMLField()
+    user = models.OneToOneField(User,on_delete=models.CASCADE, primary_key=True)
 
     def save_profile(self):
         self.save()
     
-    def delete_profile(self):
-        self.delete()
     @classmethod
-    def get_profiles(cls):
-        profiles = cls.objects.all()
-        return profiles
+    def search_profile(cls, name):
+        profile = Profile.objects.filter(user__username__icontains = name)
+        return profile
     
     @classmethod
-    def search_by_username(cls,search_term):
-        profiles = cls.objects.filter(title__icontains=search_term)
-        return profiles
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
+    def get_by_id(cls, id):
+        profile = Profile.objects.get(user = id)
+        return profile
 
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()    
+    @classmethod
+    def filter_by_id(cls, id):
+        profile = Profile.objects.filter(user = id).first()
+        return profile
 
 class Image(models.Model):
-    image = models.ImageField(upload_to='images/')
-    image_name = models.CharField(max_length=40)
-    image_caption = models.CharField(max_length=40)
-    image_location = models.CharField(max_length=40, null=True)
-    # profile = models.ForeignKey(profile,on_delete=models.CASCADE,blank=True, null=True)
-    user = models.ForeignKey(User,on_delete=models.CASCADE,blank=True, null=True)
-    posted_time = models.DateTimeField(auto_now_add=True)
-    likes = models.PositiveIntegerField(default=0)
+    photo = ImageField(blank=True, manual_crop='800x800')
+    image_name = models.CharField(max_length = 50)
+    image_caption = HTMLField(blank=True)
+    post_date = models.DateTimeField(auto_now=True)
+    likes = models.BooleanField(default=False)
+    profile = models.ForeignKey(User, on_delete=models.CASCADE)
 
-
+    class Meta:
+        ordering = ('-post_date',)
 
     def save_image(self):
         self.save()
+    
     @classmethod
-    def get_images(cls):
-        images = cls.objects.all()
-        return images    
-
-
+    def update_caption(cls, update):
+        pass
+    
+    @classmethod
+    def get_image_id(cls, id):
+        image = Image.objects.get(pk=id)
+        return image
+    
+    @classmethod
+    def get_profile_images(cls, profile):
+        images = Image.objects.filter(profile__pk = profile)
+        return images
+    
+    @classmethod
+    def get_all_images(cls):
+        images = Image.objects.all()
+        return images
 
 class Comments(models.Model):
-    comment = models.CharField(max_length = 400)
+    comment = HTMLField()
     posted_on = models.DateTimeField(auto_now=True)
-    image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name='comments')
+    image = models.ForeignKey(Image, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def save_comment(self):
         self.save()
-
-    def delete_comment(self):
-        self.delete()
+    
     @classmethod
     def get_comments_by_images(cls, id):
         comments = Comments.objects.filter(image__pk = id)
-        return comments    
-
-
+        return comments

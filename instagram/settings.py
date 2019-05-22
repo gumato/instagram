@@ -35,12 +35,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+PROFILE_REDIRECT_URL = '/'
 
 # Application definition
 
 INSTALLED_APPS = [
     'tinymce',
-    'bootstrap3',
+    'bootstrap4',
     'gram.apps.GramConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -90,7 +91,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'instagram',
         'USER': 'pricilla',
-    'PASSWORD':'1234'
+        'PASSWORD':'1234'
     }
 }
 
@@ -139,3 +140,8 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+UPLOADCARE = {
+    'pub_key': config('pub_key'),
+    'secret': config('secret'),
+}
